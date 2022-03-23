@@ -7,19 +7,13 @@ const UserController = require('../../controllers/UserController')
 //log na rota user
 router.use(logger)
 
-router.get('/',auth.verifyJWT, UserController.users)
+router.get('/', auth.verifyJWT, UserController.users)
 
 //encadear verbos HTTP para a mesma rota
 router.route('/:id')
-    .get(auth.verifyJWT,
-        UserController.findUser)
-    .put(auth.verifyJWT, (req, res) => {
-        res.send("update")
-    })
-    .delete(auth.verifyJWT, (req, res) => {
-        res.send("delete")
-    })
-
+    .get(auth.verifyJWT, UserController.find)
+    .put(auth.verifyJWT, UserController.update)
+    .delete(auth.verifyJWT, UserController.delete)
 
 function logger(req, res, next) {
     console.log(req.originalUrl)
