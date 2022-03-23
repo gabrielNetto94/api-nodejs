@@ -10,20 +10,29 @@ module.exports = {
     },
     find(req, res) {
 
-        console.log(req.params.id)
+        const { id } = req.params;
+
+        console.log(id)
 
         res.json({
             id: 1,
             name: "Luiz bla "
         })
     },
-    update(req, res) {
+    create(req, res) {
+
         const { username, password } = req.body;
 
-        res.json({ message: `User ${username} updated!` })
+        res.json({ message: `User ${username} created!` })
+    },
+    update(req, res) {
+
+        const { id } = req.params;
+
+        res.json({ message: `User ${id} updated!` })
     },
     delete(req, res) {
-        const { id } = req.body;
+        const { id } = req.params;
 
         res.json({ message: `User ${id} deleted!` })
     }

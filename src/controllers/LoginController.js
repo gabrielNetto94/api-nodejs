@@ -6,8 +6,8 @@ module.exports = {
         if (req.body.user === 'luiz' && req.body.password === '123') {
             //auth ok
             const id = 1; //esse id viria do banco de dados
-            
-            const token = jwt.sign({ id }, process.env.SECRET, {
+
+            const token = jwt.sign({ id }, process.env.KEY_TOKEN, {
                 expiresIn: 3000 // expires in 5min
             });
             return res.json({ auth: true, token: token });

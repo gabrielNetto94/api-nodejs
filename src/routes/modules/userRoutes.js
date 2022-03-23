@@ -1,13 +1,13 @@
 const express = require('express');
 const router = new express.Router();
 const auth = require('../../middleware/auth')
-
 const UserController = require('../../controllers/UserController')
 
 //log na rota user
 router.use(logger)
 
 router.get('/', auth.verifyJWT, UserController.users)
+router.post('/', auth.verifyJWT, UserController.create)
 
 //encadear verbos HTTP para a mesma rota
 router.route('/:id')

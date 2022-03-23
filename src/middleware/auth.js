@@ -4,14 +4,14 @@ require('dotenv').config()
 module.exports = {
     verifyJWT(req, res, next) {
 
-        const token = req.headers['x-access-token'];
+        const token = req.headers['access-token'];
 
         if (!token) return res.status(403).json({
             auth: false,
             message: 'No token provided.'
         });
 
-        jwt.verify(token, process.env.SECRET, function(err, decoded) {
+        jwt.verify(token, process.env.KEY_TOKEN, function(err, decoded) {
             if (err) return res.status(401).json({
                 auth: false,
                 message: 'Failed to authenticate token.'
