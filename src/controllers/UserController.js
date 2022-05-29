@@ -1,50 +1,60 @@
-const Users = require('../models/UserModel')
+const User = require('../models/UserModel')
+
 module.exports = {
 
-    users(req, res, next) {
+    async users(req, res, next) {
 
-        res.json(
-            [
-                { id: 1, nome: 'luiz' },
-                { id: 2, nome: 'gabriel' }
-            ]);
+        const users = await User.findAll()
+
+        return res.json(users)
+
     },
-    find(req, res) {
+    async find(req, res) {
 
-        const { id } = req.params;
+        const { id } = req.params
 
-        console.log(id)
+        const user = await User.findByPk(id)
 
-        res.json({
-            id: 1,
-            name: "Luiz bla "
-        })
+        if (!user)
+            return res.status(400).json({ error: 'User not found' })
+
+        return res.json(user);
     },
     async create(req, res) {
 
-        const { username, password } = req.body;
+        const { username, password } = req.body
 
-        console.log(username, password)
+        const user = await User.create({ username, password })
 
-        Users.create({
-            username: "asdasda",
-            password: "senha"
+        return res.status(201).json(user)
+
+    },
+    async update(req, res) {
+
+        const { id, username, password } = req.body
+
+        const user = await User.upsert({
+            id: id,
+            username,
+            password
+        });
+
+        return res.status(200).json(user)
+
+    },
+    async delete(req, res) {
+        const { id } = req.params
+
+        const user = await User.findByPk(id)
+
+        if (!user)
+            return res.status(400).json({ error: 'User not found' })
+
+        await User.destroy({
+            where: {
+                id: id
+            }
         })
-            .then((user) => res.status(201).send(user))
-            .catch((error) => {
-                console.log(error);
-                res.status(400).send(error);
-            })
-
-    },
-    update(req, res) {
-
-        const { id } = req.params;
-
-        res.json({ message: `User ${id} updated!` })
-    },
-    delete(req, res) {
-        const { id } = req.params;
 
         res.json({ message: `User ${id} deleted!` })
     }
