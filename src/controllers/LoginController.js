@@ -16,9 +16,7 @@ module.exports = {
         if (!user)
             return res.status(400).json({ error: 'User invalid' })
 
-
-        bcrypt.compare(password, user.dataValues.password)
-        if (bcrypt.compare(password, user.dataValues.password)) {
+        if (await bcrypt.compare(password, user.dataValues.password)) {
 
             const id = user.dataValues.id;
 
