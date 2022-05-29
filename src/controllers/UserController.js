@@ -1,3 +1,4 @@
+const Users = require('../models/UserModel')
 module.exports = {
 
     users(req, res, next) {
@@ -19,11 +20,22 @@ module.exports = {
             name: "Luiz bla "
         })
     },
-    create(req, res) {
+    async create(req, res) {
 
         const { username, password } = req.body;
 
-        res.json({ message: `User ${username} created!` })
+        console.log(username, password)
+
+        Users.create({
+            username: "asdasda",
+            password: "senha"
+        })
+            .then((user) => res.status(201).send(user))
+            .catch((error) => {
+                console.log(error);
+                res.status(400).send(error);
+            })
+
     },
     update(req, res) {
 
