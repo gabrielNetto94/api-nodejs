@@ -1,4 +1,5 @@
 const User = require('../models/UserModel')
+const bcrypt = require('bcrypt')
 
 module.exports = {
 
@@ -24,10 +25,20 @@ module.exports = {
 
         const { username, password } = req.body
 
-        const user = await User.create({ username, password })
+        let user = await User.findOne({
+            where: {
+                username,
+            }
+        })
 
-        return res.status(201).json(user)
+        if (!user) {
+            const passwordEncrypted = await bcrypt.hash(password, 10)
 
+            user = await User.create({ username, password: passwordEncrypted })
+
+            return res.status(201).json(user)
+        }
+        return res.status(400).json({ message: 'User alredy exists' })
     },
     async update(req, res) {
 
