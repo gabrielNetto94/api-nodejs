@@ -13,22 +13,21 @@ module.exports = {
             }
         })
 
-        if (username == user.dataValues.username && password == user.dataValues.password) {
+        if (!user)
+            return res.status(400).json({ error: 'User or password invalid' })
 
-            const id = user.dataValues.id;
+        const id = user.dataValues.id;
 
-            const token = jwt.sign({ id }, process.env.KEY_TOKEN, {
-                expiresIn: 30000
-            });
+        const token = jwt.sign({ id }, process.env.KEY_TOKEN, {
+            expiresIn: 30000
+        });
 
-            return res.json({
-                id,
-                auth: true,
-                token: token
-            });
-        }
+        return res.json({
+            id,
+            auth: true,
+            token: token
+        });
 
-        return res.status(500).json({ message: 'Login inválido!' });
     },
     logout(req, res) {
         res.json({ auth: false, token: null });

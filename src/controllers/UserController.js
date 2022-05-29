@@ -34,7 +34,7 @@ module.exports = {
         const { id, username, password } = req.body
 
         const user = await User.upsert({
-            id: id,
+            id,
             username,
             password
         });
