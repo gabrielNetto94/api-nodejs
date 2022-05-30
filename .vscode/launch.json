@@ -13,15 +13,5 @@
             ],
             "type": "node",
         },
-
-        // {
-        //     "type": "node",
-        //     "request": "launch",
-        //     "name": "Launch Chrome against localhost",
-        //     "skipFiles": [
-        //         "<node_internals>/**"
-        //     ],
-        //     "program": "${workspaceFolder}/src/index.js"
-        // }
     ]
 }

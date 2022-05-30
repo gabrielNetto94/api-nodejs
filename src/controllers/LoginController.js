@@ -5,33 +5,39 @@ const User = require('../models/UserModel')
 module.exports = {
     async login(req, res, next) {
 
-        const { username, password } = req.body
+        try {
 
-        const user = await User.findOne({
-            where: {
-                username
+            const { email, password } = req.body
+
+            const user = await User.findOne({
+                where: {
+                    email
+                }
+            })
+
+            if (!user)
+                return res.status(400).json({ error: 'User no found' })
+
+            if (await bcrypt.compare(password, user.dataValues.password)) {
+
+                const id = user.dataValues.id;
+
+                const token = jwt.sign({ id }, process.env.KEY_TOKEN, {
+                    expiresIn: 30000
+                });
+
+                return res.json({
+                    id,
+                    auth: true,
+                    token: token
+                });
             }
-        })
 
-        if (!user)
-            return res.status(400).json({ error: 'User invalid' })
+            return res.status(400).json({ error: 'Password invalid' })
 
-        if (await bcrypt.compare(password, user.dataValues.password)) {
-
-            const id = user.dataValues.id;
-
-            const token = jwt.sign({ id }, process.env.KEY_TOKEN, {
-                expiresIn: 30000
-            });
-
-            return res.json({
-                id,
-                auth: true,
-                token: token
-            });
+        } catch (error) {
+            return res.status(500).json({ error: error.message })
         }
-
-        return res.status(400).json({ error: 'Password invalid' })
     },
     logout(req, res) {
         res.json({ auth: false, token: null });

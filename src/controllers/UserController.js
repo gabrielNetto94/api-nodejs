@@ -23,18 +23,21 @@ module.exports = {
     },
     async create(req, res) {
 
-        const { username, password } = req.body
+        const { password, email } = req.body
 
         let user = await User.findOne({
             where: {
-                username,
+                email,
             }
         })
 
         if (!user) {
             const passwordEncrypted = await bcrypt.hash(password, 10)
 
-            user = await User.create({ username, password: passwordEncrypted })
+            user = await User.create({
+                password: passwordEncrypted,
+                email
+            })
 
             return res.status(201).json(user)
         }
@@ -42,7 +45,7 @@ module.exports = {
     },
     async update(req, res) {
 
-        const { id, username, password } = req.body
+        const { id, password, email } = req.body
 
         let user = await User.findByPk(id);
 
@@ -52,8 +55,8 @@ module.exports = {
         const passwordEncrypted = await bcrypt.hash(password, 10)
 
         await User.update({
-            username,
-            password: passwordEncrypted
+            password: passwordEncrypted,
+            email
 
         }, {
             where: { id }

@@ -4,7 +4,7 @@ const auth = require('../../middleware/auth')
 const UserController = require('../../controllers/UserController')
 
 //log na rota user
-router.use(logger)
+//router.use(logger)
 
 router.get('/', auth.verifyJWT, UserController.users)
 router.post('/', UserController.create)
