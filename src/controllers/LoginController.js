@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const User = require('../models/UserModel')
 
@@ -20,17 +20,17 @@ module.exports = {
 
             if (await bcrypt.compare(password, user.dataValues.password)) {
 
-                const id = user.dataValues.id;
+                const id = user.dataValues.id
 
                 const token = jwt.sign({ id }, process.env.KEY_TOKEN, {
                     expiresIn: 30000
-                });
+                })
 
                 return res.json({
                     id,
                     auth: true,
                     token: token
-                });
+                })
             }
 
             return res.status(400).json({ error: 'Password invalid' })
@@ -39,7 +39,4 @@ module.exports = {
             return res.status(500).json({ error: error.message })
         }
     },
-    logout(req, res) {
-        res.json({ auth: false, token: null });
-    }
 }

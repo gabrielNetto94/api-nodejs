@@ -19,7 +19,7 @@ module.exports = {
         if (!user)
             return res.status(400).json({ error: 'User not found' })
 
-        return res.json(user);
+        return res.json(user)
     },
     async create(req, res) {
 
@@ -47,7 +47,7 @@ module.exports = {
 
         const { id, password, email } = req.body
 
-        let user = await User.findByPk(id);
+        let user = await User.findByPk(id)
 
         if (!user)
             return res.status(400).json({ error: 'User not found' })

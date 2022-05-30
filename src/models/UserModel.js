@@ -1,4 +1,4 @@
-const { Sequelize, DataTypes } = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize')
 const sequelize = require('../database/db')
 
 const User = sequelize.define('User', {
@@ -18,6 +18,6 @@ const User = sequelize.define('User', {
     }
 }, {
     // Other model options go here
-});
+})
 
-module.exports = User;
+module.exports = User

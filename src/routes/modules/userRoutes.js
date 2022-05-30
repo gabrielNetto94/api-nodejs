@@ -1,5 +1,5 @@
-const express = require('express');
-const router = new express.Router();
+const express = require('express')
+const router = new express.Router()
 const auth = require('../../middleware/auth')
 const UserController = require('../../controllers/UserController')
 
@@ -15,9 +15,9 @@ router.route('/:id')
     .put(auth.verifyJWT, UserController.update)
     .delete(auth.verifyJWT, UserController.delete)
 
-function logger(req, res, next) {
-    console.log(req.originalUrl)
-    next()
-}
+// function logger(req, res, next) {
+//     console.log(req.originalUrl)
+//     next()
+// }
 
 module.exports = router
