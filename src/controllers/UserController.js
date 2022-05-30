@@ -44,13 +44,22 @@ module.exports = {
 
         const { id, username, password } = req.body
 
-        const user = await User.upsert({
-            id,
-            username,
-            password
-        });
+        let user = await User.findByPk(id);
 
-        return res.status(200).json(user)
+        if (!user)
+            return res.status(400).json({ error: 'User not found' })
+
+        const passwordEncrypted = await bcrypt.hash(password, 10)
+
+        await User.update({
+            username,
+            password: passwordEncrypted
+
+        }, {
+            where: { id }
+        })
+
+        return res.status(200).json({ message: `User ${id} Updated` })
 
     },
     async delete(req, res) {

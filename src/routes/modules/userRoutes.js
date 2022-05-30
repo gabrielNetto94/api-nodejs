@@ -7,7 +7,7 @@ const UserController = require('../../controllers/UserController')
 router.use(logger)
 
 router.get('/', auth.verifyJWT, UserController.users)
-router.post('/', auth.verifyJWT, UserController.create)
+router.post('/', UserController.create)
 
 //encadear verbos HTTP para a mesma rota
 router.route('/:id')

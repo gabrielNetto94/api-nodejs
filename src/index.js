@@ -18,19 +18,18 @@ function logger(req, res, next) {
 //         .catch(() => console.error('Unable to connect to the database:', error))
 // })();
 
-(async () => {
-    const database = require('./database/db'); 
-    const user = require('./models/UserModel'); 
+(async() => {
+    const database = require('./database/db');
+    const user = require('./models/UserModel');
     try {
         const resultado = await database.sync();
-        
+
     } catch (error) {
         console.log(error);
     }
 
 })();
 
-
 http.createServer(app)
-    .listen(3000);
-console.log("Server running on port 3000")
+    .listen(3333);
+console.log("Server running on port 3333")
