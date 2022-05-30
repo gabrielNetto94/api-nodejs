@@ -6,18 +6,27 @@ const User = sequelize.define('User', {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         allowNull: false,
-        primaryKey: true
+        primaryKey: true,
     },
     email: {
         type: DataTypes.STRING(100),
-        allowNull: false
+        allowNull: false,
+        validate: {
+            notNull: {
+                msg: 'Please enter your email'
+            },
+        },
     },
     password: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+            notNull: {
+                msg: 'Please enter your password'
+            },
+        },
     }
 }, {
     // Other model options go here
 })
-
 module.exports = User

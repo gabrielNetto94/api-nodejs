@@ -18,7 +18,7 @@ module.exports = {
             if (!user)
                 return res.status(400).json({ error: 'User no found' })
 
-            if (await bcrypt.compare(password, user.dataValues.password)) {
+            if (await bcrypt.compare(password, user.password)) {
 
                 const id = user.dataValues.id
 

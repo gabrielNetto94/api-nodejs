@@ -25,6 +25,16 @@ module.exports = {
 
         const { password, email } = req.body
 
+        try {
+
+            let test = User.build({ email, password })
+
+            await test.validate()
+
+        } catch (err) {
+            return res.status(400).json(err.errors)
+        }
+
         let user = await User.findOne({
             where: {
                 email,
@@ -32,6 +42,7 @@ module.exports = {
         })
 
         if (!user) {
+
             const passwordEncrypted = await bcrypt.hash(password, 10)
 
             user = await User.create({
